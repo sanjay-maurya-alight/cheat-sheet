@@ -8,4 +8,14 @@ JVM is platform dependent but the Java application you build is independent of O
 
 > Java is `WORA`, `Write Once, Run Anywhere`.
 
+# Data Type
 
+## Primitive
+- Integer: `int`, `short`, `long`, `byte`
+	- suffix `l` to value for long type
+- Float: `float`, `double`(default)
+	- suffix `f` to value for float type
+- Character: `char` (single quotes)
+- Boolean: values: `true`, `false`, Type: `boolean`
+
+## 
