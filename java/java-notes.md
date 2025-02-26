@@ -32,3 +32,10 @@ int num[0] = new int[2];
 int num[1] = new int[5];
 int num[2] = new int[21];
 ```
+### Enhanced Loop for arrays
+```java
+int  num[] =  new  int[]{1,2,3};
+for(int  n  :  num){
+	System.out.println(n); //1 2 3
+}
+```
