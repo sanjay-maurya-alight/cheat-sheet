@@ -18,4 +18,17 @@ JVM is platform dependent but the Java application you build is independent of O
 - Character: `char` (single quotes)
 - Boolean: values: `true`, `false`, Type: `boolean`
 
-## 
+## Array
+
+### Jagged Array
+2D array with columns are unknown. The rows needs to be fix but columns can be any number of element.
+
+```java
+int num[][] = new int[3][];
+```
+Later you need to set the columns as
+```java
+int num[0] = new int[2];
+int num[1] = new int[5];
+int num[2] = new int[21];
+```
