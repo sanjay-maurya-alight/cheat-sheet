@@ -39,3 +39,26 @@ for(int  n  :  num){
 	System.out.println(n); //1 2 3
 }
 ```
+## Strings
+Double Quote. It is not primitive but a class.
+
+```java
+String name = "Sanjay Maurya";
+```
+Using object notation as String is class.
+```java
+String name = new String("Sanjay Maurya");
+```
+String in Java is immutable. Java maintains string constant pools to reuse the same string literal without need of creating new memory location if literal is same. If you re-assign the string to same variable with some modification, the previous string constant is not used will be marked for garbage collection.
+
+To make string mutable, we use string buffer or string builder.
+
+```java
+StringBuffer name = new StringBuffer("Sanjay");
+//name.capacity() //characters that can strong
+name.append(" Maurya");
+System.out.println(name); //Sanjay Maurya
+String finalName = name.toString(); //convert back to immutable.
+System.out.println(finalName ); //Sanjay Maurya
+```
+
