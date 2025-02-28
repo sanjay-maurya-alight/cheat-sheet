@@ -361,6 +361,60 @@ abstract public class A implements C {}
 ```
 If you declare properties within the interface, by default they will become `final` and `static`. And thus you can refer them just using class name where interface is implemented. 
 
+Note
 >class can extend another class \
 > class can implement an interface \
 > interface can extend another interface
+
+## Enum
+List of constant that can be reused in the code:
+```java
+enum Status {Running, Pending, Stopped};
+```
+You can define `enum` as data type to store listed values only.
+
+```java
+Status codes = Status.Pending
+```
+Moreover:
+```java
+Status  codes[] =  Status.values(); //get all values
+System.out.println(codes[0]); //get first value in the array
+```
+We can use the same in `if` and `switch` conditions:
+```java
+enum Status {Running, Pending, Stopped};
+class Server{
+	Status getServerStatus(){
+		return Status.Pending;
+	}	
+}
+
+//main method:
+Server server = new Server();
+Status s = server.getServerStatus(); //some user defined function
+if(s == Status.Pending){
+	System.out.println("Process not started!");
+}else if(s == Status.Running){
+	System.out.println("Process still running!");
+}else if(s == Status.Stopped){
+	System.out.println("Process has stopped!");
+}
+```
+Same `if` condition can be written with smaller codes as:
+```java
+switch (s) {
+	case Pending:
+		System.out.println("Process not started!");
+		break;
+	case Running:
+	System.out.println("Process still running!");
+		break;
+	case Stopped:
+		System.out.println("Process has stopped!");
+		break;
+	default:
+		break;
+}
+```
+Note that type `Status` is referred itself. We are not using value `Pending` as `Status.Pending` for example in switch cases.
