@@ -330,3 +330,37 @@ A a = new A(){
 };
 ```
 Here instead of extending, we are overriding the method during runtime.
+
+For abstract class, we can instantiate using anonymous inner class by providing definition of abstract methods in the curly braces.
+```java
+abstract class A{
+	abstract void showDetails();
+}
+
+A a = new A(){
+	public showDetails(){
+		System.out.println("Showing from abstract class");
+	}
+};
+//in main method
+a.showDetails();
+```
+# Interfaces
+All methods are by default `abstract public`, Interface is not a class and hence can't be instantiated but can be used for defining data type of variable. If we are creating class for just abstract methods, we should refer `interface` instead.
+
+We use `implements` keyword for implementing interface. An interface can extend another interface and a class can implement multiple interfaces.
+
+You have to define all abstract methods in `interface` or mark your class as `abstract`.
+```java
+interface C {
+	void showA();
+	void showB();
+}
+
+abstract public class A implements C {}
+```
+If you declare properties within the interface, by default they will become `final` and `static`. And thus you can refer them just using class name where interface is implemented. 
+
+>class can extend another class \
+> class can implement an interface \
+> interface can extend another interface
