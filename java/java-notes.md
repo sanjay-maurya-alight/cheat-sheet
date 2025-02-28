@@ -367,10 +367,12 @@ Note
 > interface can extend another interface
 
 ## Enum
-List of constant that can be reused in the code:
+List of objects that can be reused in the code:
 ```java
 enum Status {Running, Pending, Stopped};
 ```
+Here the values within the curly braces are objects.
+
 You can define `enum` as data type to store listed values only.
 
 ```java
@@ -418,3 +420,5 @@ switch (s) {
 }
 ```
 Note that type `Status` is referred itself. We are not using value `Pending` as `Status.Pending` for example in switch cases.
+
+`Enum` is like class but can't be extended.
