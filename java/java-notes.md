@@ -214,3 +214,119 @@ import  tools.other.*;
 ```
 # Access Modifier
 By default, a class member gets `default` access modifier meaning the member is public within the *same package* only and is private outside. The other modifiers are: `public`, `protected` and `private`.
+
+## Dynamic Method Dispatch
+You can re-assign same class object with different class types or class objects as long as they are related by inheritance. For example:
+```java
+class A extends Object{
+	public void show(){
+		System.out.println("AShow");
+	}
+}
+
+class B extends A{
+	public void show(){
+		System.out.println("BShow");
+	}
+}
+public class C {
+	public void show(){
+		System.out.println("CShow");
+	}
+}
+```
+Note here class C is not related to A and B. In main method we can write as:
+```java
+A obj = new B();
+obj.show(); //BShow
+
+obj = new A();
+obj.show(); // AShow
+obj = new B();
+obj.show(); //BShow
+
+obj = new C(); //error
+obj.show();
+```
+We started out creating object of parent type and assigned child class instance. Then on `obj` variable is reused in other assignment in classes which are related. The class C is not related and hence throws error when instance is assigned to same object `obj`.
+
+## Final keyword
+The keyword `final` is used for class name, methods and properties. It is used for creating constant properties when applied to properties.
+```java
+final int age = 15; //creates a constant
+age = 20; //error as constant
+```
+When a class is made `final`, that class then can't be sub-classed.
+```java
+final class A{}
+class B extends A{} // error
+```
+When a method is `final`, that method can not be overridden in child class.
+```java
+class A{
+	public final void show(){
+		System.out.println("From class A");
+	}
+}
+class B extends A{
+	public void show(){ // error, can be overridden in child class
+		System.out.println("From class A");
+	}
+}
+```
+- `final` property: create constant property
+- `final` method: - stop overriding
+- `final` class: stop sub class
+
+# Typecasting
+```java
+datatype variable = (dataType2) value
+```
+We can typecast using user defined object. We have two cases either object will be down casted to get features of child class or up casted to get features of parent class.
+
+
+# Wrapper Class
+Classes around primitive data types to get additional features which are not there with primitive types such as parsing string to number.
+
+# Abstract Class
+
+An abstract class can't be instantiate and forces to implement abstract methods if any in child class. The child will  become abstract if even child class is not implementing the abstract methods. The class must be abstract if one of the method is abstract where as an abstract class need not contain abstract method.
+
+An abstract method is method declaration without curly braces.
+```java
+abstract public void drive();
+```
+# Inner Class
+A class within another class.
+
+```java
+class A{
+	
+	private int val = 10;
+
+	public void showValue(){
+		System.out.println(this.val);
+	}
+
+	class B{
+		public void showNewValue(){
+			System.out.println("New Value");
+		}	
+	}
+}
+
+//in main method
+A a = new A();
+A.B b = a.new B();
+a.showValue();
+b.showNewValue();
+```
+Another way to define anonymous inner class as:
+```java
+A a = new A(){
+	public void showValue(){
+		System.out.println("add this");
+	}
+};
+```
+Here instead of extending, we are overriding the method during runtime.
