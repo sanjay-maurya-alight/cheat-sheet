@@ -371,7 +371,7 @@ List of objects that can be reused in the code:
 ```java
 enum Status {Running, Pending, Stopped};
 ```
-Here the values within the curly braces are objects.
+Here the values within the curly braces are objects. They are instances of user defined `enum` class Status. So the `enum` is storing its own objects.
 
 You can define `enum` as data type to store listed values only.
 
@@ -421,4 +421,56 @@ switch (s) {
 ```
 Note that type `Status` is referred itself. We are not using value `Pending` as `Status.Pending` for example in switch cases.
 
-`Enum` is like class but can't be extended.
+`Enum` is like class but can't be extended. Let's check on enum like class.
+
+Following declaration is enum containing objects of its own with value passed to each object.
+
+You can guess what would be called when we pass parameter to class constructor while object creation. It is the constructor.
+```java
+enum  Laptop{
+	MacBook, Dell, HP, Surface;
+}
+```
+Here if we pass value to those objects, the constructor needs to incorporate the value passed to it otherwise it is an error.
+```java
+enum Laptop{
+	MacBook(100), Dell(200), HP(300), Surface(400)
+
+	Integer cost=0;
+	Laptop(Integer cost){
+		this.cost = cost;
+	}
+}
+```
+In main method, we can write as:
+```java
+Laptop lap = Laptop.HP;
+System.out.println(lap + " - " + lap.cost);
+```
+What if one object doesn't need value, we can then define additionally default constructor in the enum as:
+```java
+enum Laptop{
+	MacBook(100), Dell, HP(300), Surface(400);
+
+	Integer cost=0;
+	Laptop(Integer cost){
+		this.cost = cost;
+	}
+	private Laptop() {
+		this.cost = 500;
+	}
+}
+```
+So now, the if no value passed to object, the price property would be set to 500. So in our main method we can write:
+```java
+for (Laptop lap : Laptop.values()) {
+	System.out.println(lap + " - " + lap.cost);	
+}
+```
+The outcome would be:
+```console
+MacBook - 100
+Dell - 500
+HP - 300
+Surface - 400
+```
