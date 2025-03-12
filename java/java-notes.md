@@ -694,3 +694,89 @@ Refer thread related videos back from the list.
 
 # Collection API
 
+`Collection` and `Map` are interfaces for creating any user defined collection API. However, we should first check the in built collections. The collections are part of `util` package. 
+- All collections of interface `Collection`: `java.util.Collection` 
+- All collections of interface `Map`: `java.util.Map`
+
+Ref:  [geeksforgeeks](https://www.geeksforgeeks.org/collections-in-java-2/)
+
+Following are interfaces on collection interface. They have implemented own classes. Partial examples shown below. Refer link for complete list.
+- `java.util.Collection` interfaces
+	- `List` interface: ****ordered collections of elements****
+		- `ArrayList` class
+		- `LinkedList` class
+		- `Vector` class
+		- `Stack` class
+	- `Queue` interface: ****ordered; stores and processes the data in FIFO(First In First Out)****
+		- `PriorityQueue` class
+		- `Deque` class
+	- `Deque` interface: ****ordered;double ended queue - FIFO and LIFO both****
+	- `Set` interface: ****Unordered and non duplicate collection****
+	- `SortedSet` interface: ****Ordered and non duplicate collection****
+- `java.util.Map` interfaces
+	- `Map` interface: ****Key/value pair****
+		- `HashMap` class: ***unordered keys***
+		- `SortedMap` class: ***keys in a sorted order***
+		- `NavigableMap` class: ***Uses key range for navigation***
+
+The collection API works with object by default and not primitive type. To work with primitive in collection API, we use generics to specify class corresponding to data type. For example:
+```java
+Collection num = new ArrayList();
+num.add(2);
+num.add(3);
+num.add(8);
+```
+Here we are storing integers instead of objects. So in this case we need to specify type if we are not storing objects.
+```java
+Collection<Integer> num = new ArrayList<Integer>();
+num.add(2);
+num.add(3);
+num.add(8);
+```
+Now way you can loop over collection as following:
+```java
+for(Integer n : num){
+	System.out.println(n);
+}
+```
+Note `Integer` is a integer class for handling integer and is part of `java.lang`. Note that `Collection` is very generic interface and therefore you might not get all unique features or methods to work on data.
+
+## Comparable
+If you implement a class with `Comparable`, you can directly use your object and compare in in the code. For example:
+```java
+class A implements Comparable<A> {
+
+	private int age=0;
+	private String name="";
+
+	A(String name, int age){
+		this.name = name;
+		this.age = age;
+	}
+	public int compareTo(A human) {
+		return this.age >= human.age ? 1 : -1;
+	}
+	public String toString(){
+		return "Name: " + this.name + " - Age: " + this.age;
+	}
+}
+
+class Hello {
+	public static void main(final String c[]) {
+
+		List<A> person = new ArrayList<A>();
+
+		person.add(new A("Aa", 21));
+		person.add(new A("Ab", 1));
+		person.add(new A("Ac", 10));
+		person.add(new A("Ad", 43));
+
+		Collections.sort(person);
+
+		System.out.println(person);
+		//[Name: Ab - Age: 1, Name: Ac - Age: 10, Name: Aa - Age: 21, Name: Ad - Age: 43]
+	}
+}
+```
+
+
