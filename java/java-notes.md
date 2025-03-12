@@ -474,3 +474,223 @@ Dell - 500
 HP - 300
 Surface - 400
 ```
+
+# Lambda Expression
+- Functional Interface: has one method with optionally `@FunctionInterface` applied to force to have one method
+- Normal Interface: multiple methods
+- Marker Interface: no methods
+
+The lambda expression let us define method of the function interface during runtime. For example
+```java
+@FunctionalInterface
+public interface A {
+	void showing(boolean isShowing);
+}
+```
+We can define the method by declaring a class. The lambda expression is another way which doesn't require you to define class if there is one method implementation.
+```java
+class Hello {
+	public static void main(final String c[]) {
+		A obj = isShowing -> System.out.println("Showing " + isShowing);
+		obj.showing(true);
+	}
+}
+```
+Output:
+```
+Showing true
+```
+One can use braces if there are multiple statements for the expression.
+
+Notice that the during the object creation, we didn't specify the type of variable for the method.
+Below is the example of Lambda expression with return value. For single statement, `return` is not required.
+```java
+@FunctionalInterface
+public interface A {
+	int add(int i, int j);
+}
+class Hello {
+	public static void main(final String c[]) {
+		A obj = (i,j) -> i + j;
+		System.out.println(obj.add(5,4));
+	}
+}
+```
+Output:
+```java
+9
+```
+# Exception
+```java
+try{ //try() <- for resources
+	//some code to evaluate
+}catch(Exception e){
+	 // optional block, can be removed if not required
+	//some information when exception arises
+}finally{
+	//always gets execited
+}
+```
+The `Exception` is parent class of many other exception.
+```java
+class Hello {
+	public static void main(final String c[]) {
+		try {
+			final double data = 4/0;
+			System.out.println(data);
+		} catch (Exception e) {
+			System.out.println("Something went wrong. " + e.getMessage());
+		}
+	}
+}
+```
+You may chain multiple exception in one statement. The `Exception` should be last.
+
+Note that try can accept declaration which creates resources and those resources can be closed automatically if the resource creator class has auto closable implemented.
+```java
+public  static  void  main(final  String  c[]) {
+
+try (BufferedReader  br  =  new  BufferedReader(new  InputStreamReader(System.in))) {
+
+} catch (IOException  e) { }
+
+}
+```
+
+## Throwing an exception
+
+```java
+throw new ArithmeticException();
+```
+You can optionally pass message into the exception class.
+
+## Custom Exception
+For example:
+```java
+class AException extends Exception{
+	AException(String message){
+		super(message);
+	}
+}
+class Hello {
+	public static void main(final String c[]) {
+		try {
+			throw new AException("My Favorite exception");
+		} catch (AException e) {
+			System.out.println(e); //AException: My Favorite exception
+		}
+	}
+}
+```
+## Exception bubbling Up
+In PHP we have exception bubble up which means an exception occurred somewhere is bubbled up to the calling method or property of the object. However in Java we don't have bubbling enabled by default and therefore whenever exception occurs, it has to be handled there otherwise code will not go ahead. When class method extends `throws Exception`, it means any exception occurred in that class should be bubbled up in case not handled in that class.
+
+For example:
+```java
+class A {
+	public void add(){
+		try {
+			double a = 4/0;	
+			System.out.println("Answer: " + a);
+		} catch (Exception e) {
+			System.out.println("An error occured");
+		}
+	}
+}
+
+class Hello {
+	public static void main(final String c[]) {
+		A obj = new A();
+		obj.add();
+	}
+}
+```
+Here you would note the class A is handling the exception and there calling method of class A doesn't know what happened if code stopped there. For example
+```java
+class A{
+	public void add() throws Exception{
+		double a = 4/0;	
+		System.out.println("Answer: " + a);
+	}
+}
+
+class Hello {
+	public static void main(final String c[]) {
+		A obj = new A();
+		try {
+			obj.add();	
+		} catch (Exception e) {
+			System.out.println("From Main: " + e);
+		}
+	}
+}
+```
+Note here the `try/catch` block is missing in class A and exception occurring from class A is checked in main method. Please note that you may still write the `try/catch` block and the local `try/catch` will be executed instead in that case.
+
+## User Inputs
+Similar to `System.out`, we have `System.in` for taking input. The `System.in` has methods. One of them is `read()` method which accepts one character and returns ASCII value of passed input.
+```java
+class Hello {
+	public static void main(final String c[]) {
+		System.out.print("Enter a value: ");
+		try {
+			System.in.read();	
+		} catch (Exception e) {
+			System.out.println("Unable to get input.12");
+		}
+	}
+}
+```
+> Note that `System.in` is input stream from `InputStream` class and can passed to method call which require input data from user from console.
+
+However we want to read entire content. Java provides two classes for the same `BufferedReader` and `Scanner`. They both belongs to `java.io` package. The `BufferedReader` provides `readLine()` method for reading entire line from the input stream.
+```java
+BufferedReader  bf  =  new  BufferedReader();
+```
+The above statement is not a complete as `BufferedReader` needs `Reader` class as input. For input stream as reader we use `InputStreamReader` class. That is
+```java
+InputStreamReader  in  =  new  InputStreamReader();
+BufferedReader  bf  =  new  BufferedReader(in);
+```
+Here again the `InputStreamReader` needs input stream which is `System.in`. The other streams for example are: File, Print, etc,.
+```java
+InputStreamReader  in  =  new  InputStreamReader(System.in);
+BufferedReader  bf  =  new  BufferedReader(in);
+```
+Below is complete code:
+```java
+class Hello {
+	public static void main(final String c[]) {
+		System.out.print("Enter a value: ");
+		
+		InputStreamReader in = new InputStreamReader(System.in);
+		BufferedReader bf = new BufferedReader(in);
+		
+		try {
+			System.out.println(bf.readLine());
+			bf.close();	//close the resource point
+		} catch (Exception e) {
+			System.out.println("Unable to close the stream input");
+		}
+	}
+}
+```
+The `Scanner` code simplifies above to below:
+```java
+class Hello {
+	public static void main(final String c[]) {
+		System.out.print("Enter a value: ");
+		Scanner sc = new Scanner(System.in);
+		System.out.println(sc.next());
+		sc.close();
+	}
+}
+```
+
+## Threads
+Small unit of process that can be completed independently of other task. They share the resources and therefore can run the at the same time. Therefore threads allows multi-tasking.
+
+Refer thread related videos back from the list.
+
+# Collection API
+
