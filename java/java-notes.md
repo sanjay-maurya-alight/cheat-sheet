@@ -779,4 +779,74 @@ class Hello {
 }
 ```
 
+# Streams API
+Stream API converts data into stream and provide us useful methods for data manipulation.
+```java
+List<Integer> nums = Arrays.asList(1,4536,634,66,74,7,67,32);
 
+int result = nums.stream()
+	.filter(n -> n%2==0)
+	.map(n -> n*2)
+	.reduce(0, (p, e) -> p+e );
+
+System.out.println(result); //10684
+```
+Just like comparable, we can define separate method for evaluating each of those arguments using `predicate`.
+```java
+public static void main(final String c[]) {
+
+	List<Integer> nums = Arrays.asList(1,4536,634,66,74,7,67,32);
+
+	Predicate<Integer> isEven = new Predicate<Integer>() {
+		public boolean test(Integer n) {
+			return n%2 == 0;
+		}
+	};
+
+	int result = nums.stream()
+		.filter(isEven)
+		.map(n -> n*2)
+		.reduce(0, (p, e) -> p+e );
+
+	System.out.println(result); //10684
+}
+```
+
+Similarly for Map, we have `Function` (click to check the definition of Map) which can be used for calculating for each input and return that.
+
+One can use `parallelStream` instead of `Stream` for multiple thread based calculation.
+
+# Optional Class
+Before Java 1.8, if a value null is assigned to a variable of some type, we used to get Null pointer exception. In that case we set type of variable as `Optional`.
+
+# Method Reference
+For methods in stream, for example `map`, we may require some manipulation such as:
+```java
+names.stream().map(name -> name.toUpperCase())
+```
+The lambda declaration `name -> name.toUpperCase()` can be shortened as `String::toUpperCase` where method call is referred itself by reference.
+```java
+names.stream().map(String::toUpperCase)
+```
+It is not just in streams but can be used everywhere such as:
+```java
+result.forEach(i -> System.out.println(i));
+```
+Can be written as:
+```java
+result.forEach(System.out::println);
+```
+On similar hands, we can create objects by using syntax: `ClassName::new` as shown below:
+```java
+public static void main(final String c[]) {
+	List<Student> students = new ArrayList<>();
+	
+	List<String> names = new ArrayList<>();
+	names.add("John");
+	names.add("Smith");
+
+	students = names.stream().map(Student::new).toList();
+	System.out.println(students);
+}
+```
+Here `Student::new` is constructor reference for object creation.
